@@ -26,6 +26,17 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+ body .w-md-editor-preview {
+  -webkit-font-smoothing: antialiased;
+  display: grid;
+  grid-template-columns: 1fr min(125ch, 100%) 1fr;
+}
+
+ .w-md-editor-preview > * {
+  grid-column: 2;
+}
+
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

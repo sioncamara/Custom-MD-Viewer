@@ -86,15 +86,15 @@ export default function CustomMdEditor() {
   const [value, setValue] = useState<string>("**Loading...**")
   const [editorCommands, setEditorCommands] = useState<ICommand[]>([])
 
-  const setClipboardText = () => {
-    navigator.clipboard
-      .readText()
-      .then((clipboardText) => {
-        const cleanedText = cleanClipboardText(clipboardText)
-        setValue(cleanedText)
-      })
-      .catch(() => setValue(`**Hello world!!!**`))
-  }
+  const setClipboardText = async () => {
+    try {
+      const clipboardText = await navigator.clipboard?.readText();
+      const cleanedText = clipboardText ? cleanClipboardText(clipboardText) : '**Hello world!!!**';
+      setValue(cleanedText);
+    } catch (error) {
+      setValue('**Hello world!!!**');
+    }
+  };
 
   useEffect(() => {
     if (isMobile) {
