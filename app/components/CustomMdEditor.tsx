@@ -7,6 +7,7 @@ import MDEditor, {
   EditorContext,
 } from "@uiw/react-md-editor"
 import rehypeSanitize from "rehype-sanitize"
+import { cleanClipboardText } from "../utils/stringUtils"
 
 const ToggleViewMode = () => {
   const { preview, dispatch } = useContext(EditorContext)
@@ -73,14 +74,6 @@ const isMobileDevice = () => {
   return false
 }
 
-function cleanClipboardText(clipboardText: string) {
-  // This regex finds code blocks and then targets any colon followed by any text up to the end of the line.
-  const regex = /(`{3}[\s\S]*?):[^\n`]*?(?=\n|```)/g
-
-  // Replace the matched text (colon and following text) with the captured group (text before the colon).
-  return clipboardText.replace(regex, "$1")
-}
-
 export default function CustomMdEditor() {
   const isMobile = isMobileDevice()
   const [value, setValue] = useState<string>("**Loading...**")
@@ -88,13 +81,15 @@ export default function CustomMdEditor() {
 
   const setClipboardText = async () => {
     try {
-      const clipboardText = await navigator.clipboard?.readText();
-      const cleanedText = clipboardText ? cleanClipboardText(clipboardText) : '**Hello world!!!**';
-      setValue(cleanedText);
+      const clipboardText = await navigator.clipboard?.readText()
+      const cleanedText = clipboardText
+        ? cleanClipboardText(clipboardText)
+        : "**Hello world!!!**"
+      setValue(cleanedText)
     } catch (error) {
-      setValue('**Hello world!!!**');
+      setValue("**Hello world!!!**")
     }
-  };
+  }
 
   useEffect(() => {
     if (isMobile) {
