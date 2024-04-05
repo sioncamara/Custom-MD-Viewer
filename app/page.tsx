@@ -1,4 +1,4 @@
-import CustomMdEditor from "./CustomMdEditor"
+import CustomMdEditor from "./components/CustomMdEditor"
 
 export default function Home() {
   return (
